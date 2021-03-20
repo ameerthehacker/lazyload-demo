@@ -1,12 +1,26 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+
+const LazyCart = React.lazy(() => import('./pages/cart'));
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <Switch>
+        <Route path="/" exact>
+          <App />
+        </Route>
+        <Route path="/cart" exact>
+          <Suspense fallback={<div>Downloading comoponent...</div>}>
+            <LazyCart />
+          </Suspense>
+        </Route>
+      </Switch>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );
